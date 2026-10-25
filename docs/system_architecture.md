@@ -8,42 +8,34 @@ The architecture is divided into an energy subsystem, a tracking tag, a wireless
 
 2. System Block Diagram
 
-          ENERGY HARVESTING SUBSYSTEM
-        +-----------------------------+
-        | Solar Panel                 |
-        | Piezoelectric Transducer    |
-        +--------------+--------------+
-                       |
-                       v
-        +-----------------------------+
-        | Energy Management Circuit   |
-        | and Rechargeable Battery    |
-        +--------------+--------------+
-                       |
-                       v
-+-------------------------------------------+
-|             WILDLIFE TAG                  |
-|                                           |
-|  GPS Module ---> Microcontroller          |
-|                       |                   |
-|                       v                   |
-|               Wireless Transmitter        |
-+-----------------------+-------------------+
-                        |
-                  Wireless Link
-                        |
-                        v
-+-------------------------------------------+
-|              RECEIVER                     |
-|                                           |
-|          Wireless Receiver                |
-|                 |                         |
-|                 v                         |
-|          Data Processing                  |
-|                 |                         |
-|                 v                         |
-|          Monitoring Dashboard             |
-+-------------------------------------------+
+          
+flowchart TD
+    subgraph E["Energy Harvesting Subsystem"]
+        S["Solar Panel"]
+        P["Piezoelectric Harvester"]
+        M["Energy Management Circuit"]
+        B["Rechargeable Battery"]
+        S --> M
+        P --> M
+        M --> B
+    end
+
+    subgraph T["Wildlife Tracking Tag"]
+        G["GPS Module"]
+        C["Microcontroller"]
+        L1["LoRa Transmitter"]
+        G --> C
+        C --> L1
+    end
+
+    B -.-> C
+    L1 -->|"Wireless Data"| L2["LoRa Receiver"]
+    L2 --> D["Data Processing"]
+    D --> H["Monitoring Dashboard"]
+
+    H --> I["Tag ID, Location, Timestamp, Battery Status"]
+    
+                                           
 
 3. Energy Subsystem
 
